@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="tr"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Osmanlı Tarihi</title> 
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        #padişahlar {
+            display: none;
+            margin-top: 20px;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style> 
+ </head> 
+ <body> 
+  <header> 
+   <h1>Osmanlı Tarihi</h1> 
+  </header> 
+  <main> 
+   <h2>Osmanlı İmparatorluğu Hakkında</h2> 
+   <p>Osmanlı İmparatorluğu, 1299-1922 yılları arasında varlığını sürdürmüş ve üç kıtaya yayılan büyük bir devletti.</p> <button id="togglePadişahlar">Osmanlı Padişahları</button> 
+   <div id="padişahlar"> 
+    <h3>Osmanlı Padişahları:</h3> 
+    <ul> 
+     <li>Osman Gazi</li> 
+     <li>Orhan Gazi</li> 
+     <li>Murad I</li> 
+     <li>Beyazıt I</li> 
+     <li>Çelebi Mehmet</li> 
+     <li>Fatih Sultan Mehmet</li> 
+     <li>Kanuni Sultan Süleyman</li> 
+     <li>Sultan II. Selim</li> 
+     <li>Sultan III. Ahmed</li> 
+     <li>Sultan IV. Mehmet</li> 
+     <li>Mustafa II</li> 
+     <li>Sultan III. Mustafa</li> 
+     <li>Sultan I. Abdülhamid</li> 
+     <li>Sultan II. Mahmud</li> 
+     <li>Sultan Abdülaziz</li> 
+     <li>Sultan V. Murad</li> 
+     <li>Sultan II. Abdülhamid</li> 
+     <li>Sultan Vahdettin</li> 
+    </ul> 
+   </div> 
+  </main> 
+  <footer> 
+   <p>Bu sayfayı oluşturan: Muhammed Ali</p> 
+   <p>© 2024 Osmanlı Tarihi</p> 
+  </footer> 
+  <script>
+        const button = document.getElementById('togglePadişahlar');
+        const padişahlarDiv = document.getElementById('padişahlar');
+
+        button.onclick = function() {
+            if (padişahlarDiv.style.display === 'none' || padişahlarDiv.style.display === '') {
+                padişahlarDiv.style.display = 'block';
+            } else {
+                padişahlarDiv.style.display = 'none';
+            }
+        };
+    </script> 
+ 
+</body></html>
