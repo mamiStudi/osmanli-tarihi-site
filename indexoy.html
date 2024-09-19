@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savaş Oyunu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #gameArea, #managementArea {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Savaş Oyunu</h1>
+    <p>Ülkenizin adını girin:</p>
+    <input type="text" id="countryName" placeholder="Ülke Adı">
+    <button id="startGame">Oyuna Başla</button>
+
+    <div id="gameArea">
+        <h2>Bir düşmanla savaşıyorsunuz!</h2>
+        <p>Düşman: <span id="enemyName"></span> - Asker: <span id="enemySoldiers"></span></p>
+        <p>Sizin Asker: <span id="playerSoldiers"></span></p>
+        <button id="attack">Saldır</button>
+        <p id="message"></p>
+    </div>
+
+    <div id="managementArea">
+        <h2 id="countryInfo"></h2>
+        <p>Altın: <span id="goldAmount">800</span></p>
+        <p>Asker Sayınız: <span id="managementSoldiers">100</span></p>
+        <p>Tur: <span id="turnCount">1</span></p>
+        <button id="trainSoldiers">Asker Eğit (15 Altın için 2 Asker)</button>
+        <button id="nextTurn">Sonraki Tur</button>
+        <button id="battleButton">Savaş</button>
+        <p id="managementMessage"></p>
+    </div>
+
+    <script>
+        let playerSoldiers = 100;
+        let enemySoldiers = 0;
+        let goldAmount = 800;
+        let countryName = "";
+        let turnCounter = 1;
+
+        document.getElementById('startGame').onclick = function() {
+            countryName = document.getElementById('countryName').value.trim();
+            if (countryName) {
+                document.getElementById('managementArea').style.display = 'block';
+                document.getElementById('startGame').style.display = 'none';
+                updateManagement();
+            } else {
+                alert("Lütfen bir ülke adı girin.");
+            }
+        };
+
+        function updateManagement() {
+            document.getElementById('countryInfo').textContent = `${countryName} Ülkesinin Yönetimi`;
+            document.getElementById('managementSoldiers').textContent = playerSoldiers;
+            document.getElementById('goldAmount').textContent = goldAmount;
+            document.getElementById('turnCount').textContent = turnCounter;
+        }
+
+        document.getElementById('trainSoldiers').onclick = function() {
+            if (goldAmount >= 15) {
+                playerSoldiers += 2;
+                goldAmount -= 15;
+                updateManagement();
+                document.getElementById('managementMessage').textContent = "2 asker eğitildi!";
+            } else {
+                document.getElementById('managementMessage').textContent = "Yeterli altın yok!";
+            }
+        };
+
+        document.getElementById('nextTurn').onclick = function() {
+            turnCounter++;
+            goldAmount += 100; // Her turda 100 altın eklenir
+            document.getElementById('managementMessage').textContent = "Bir sonraki tura geçildi!";
+            updateManagement();
+            if (turnCounter % 5 === 0) {
+                enemyAttack(); // Düşman saldırısını kontrol et
+            }
+        };
+
+        document.getElementById('battleButton').onclick = function() {
+            enemyAttack();
+        };
+
+        function enemyAttack() {
+            enemySoldiers = Math.floor(Math.random() * 50) + 51; // 51 ile 100 arasında asker
+            document.getElementById('enemyName').textContent = "Düşman";
+            document.getElementById('enemySoldiers').textContent = enemySoldiers;
+            document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('managementArea').style.display = 'none';
+            document.getElementById('message').textContent = ''; // Mesajı temizle
+        }
+
+        document.getElementById('attack').onclick = function() {
+            if (playerSoldiers > 0 && enemySoldiers > 0) {
+                const playerDamage = Math.floor(Math.random() * 20) + 10;
+                const enemyDamage = Math.floor(Math.random() * 20) + 5;
+
+                enemySoldiers -= playerDamage;
+                playerSoldiers -= enemyDamage;
+
+                document.getElementById('message').textContent = `Siz ${playerDamage} hasar verdiniz! Düşman ${enemyDamage} hasar verdi!`;
+
+                if (enemySoldiers <= 0) {
+                    document.getElementById('message').textContent += ' Tebrikler! Düşmanı yendiniz!';
+                    goldAmount += 50; // Düşmanı yenince ödül
+                    playerSoldiers += 5; // Düşmanı yendikçe asker artışı
+                    transitionToManagement();
+                }
+
+                if (playerSoldiers <= 0) {
+                    document.getElementById('message').textContent += ' Maalesef, tüm askerleriniz yok oldu. Kaybettiniz!';
+                    playerSoldiers = 0;
+                    transitionToManagement();
+                }
+
+                updateSoldiers();
+            }
+        };
+
+        function updateSoldiers() {
+            document.getElementById('enemySoldiers').textContent = Math.max(enemySoldiers, 0);
+            document.getElementById('playerSoldiers').textContent = Math.max(playerSoldiers, 0);
+        }
+
+        function transitionToManagement() {
+            document.getElementById('managementArea').style.display = 'block';
+            document.getElementById('gameArea').style.display = 'none';
+            updateManagement();
+        }
+    </script>
+
+</body></html>
